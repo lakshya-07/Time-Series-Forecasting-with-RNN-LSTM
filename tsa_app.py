@@ -27,47 +27,12 @@ def set_background(image_path):
 # Apply the background
 set_background('bg_tsa.jpg')  # Path to your image file
 
-# Function to load and preprocess the data
-def preprocess_data(file):
-    file.seek(0)  
-    df = pd.read_csv(file)
-    df_ema = apply_ema(df)
-    lagged_df = create_lagged_features(df_ema, n_lags=5)
 
-    X = lagged_df.dropna().drop(columns=['t1', 't2'])  
-    y = lagged_df[['t1', 't2']]  
-
-    X = np.array(X)
-    y = np.array(y)
-    X = X.reshape(X.shape[0], 1, X.shape[1])
-
-    return X, y
-# Function to apply EMA
-def apply_ema(data, span=10):
-    data['t1_ema'] = data['t1'].ewm(span=span, adjust=False).mean()
-    data['t2_ema'] = data['t2'].ewm(span=span, adjust=False).mean()
-    return data
-
-# Function to create lagged features
 def create_lagged_features(data, n_lags=5):
-    lagged_data = data.copy()
     for lag in range(1, n_lags + 1):
-        lagged_data = pd.concat([lagged_data, data[['t1', 't2']].shift(lag).add_suffix(f'_lag{lag}')], axis=1)
-    lagged_data = lagged_data.dropna()  
-    return lagged_data
+        data[f'value_lag{lag}'] = data['value'].shift(lag)
+    return data.dropna()
 
-# Forecasting function for model prediction
-def forecast(model, last_input, future_steps=24):
-    predictions = []
-    current_input = last_input
-
-    for _ in range(future_steps):
-        pred = model.predict(current_input.reshape(1, 1, -1))
-        predictions.append(pred[0, 0])
-        current_input = np.roll(current_input, -1)
-        current_input[-1] = pred
-
-    return np.array(predictions)
 
 # Function to visualize the dataset
 def plot_dataset(df, title):
@@ -93,6 +58,23 @@ def plot_dataset(df, title):
     fig = dict(data=data, layout=layout)
     st.plotly_chart(fig)
 
+
+
+# Forecasting function for model prediction
+def forecast(model, last_input, future_steps=24):
+    predictions = []
+    current_input = last_input
+
+    for _ in range(future_steps):
+        pred = model.predict(current_input.reshape(1, 1, -1))
+        predictions.append(pred[0, 0])
+        current_input = np.roll(current_input, -1)
+        current_input[-1] = pred
+
+    return np.array(predictions)
+
+
+
 # Function to visualize forecast results interactively
 def plot_forecast_interactive(true_values, future_predictions, forecast_steps=24):
     """
@@ -113,7 +95,7 @@ def plot_forecast_interactive(true_values, future_predictions, forecast_steps=24
 
     fig.add_trace(go.Scatter(x=future_time_steps, y=future_predictions, mode='lines', name='Forecasted Values', line=dict(color='red', dash='dash')))
     fig.update_layout(
-        title="True vs. Forecasted Energy Consumption",
+        title="True and Forecasted Energy Consumption",
         xaxis_title="Time Steps",
         yaxis_title="Energy Consumption",
         template="plotly_dark",
@@ -147,8 +129,16 @@ if uploaded_file is not None:
     # Plot the dataset
     plot_dataset(df, title='Energy Consumption (PJM East Region)')
 
-    # Preprocess data and forecast
-    X, y = preprocess_data(uploaded_file)
+    df = create_lagged_features(df)
+    df = apply_ema(df)
+    scaler = MinMaxScaler()
+    scaled_data = scaler.fit_transform(df[['value'] + [f'value_lag{i}' for i in range(1, 6)] + ['value_ema']])
+    X = scaled_data[:, 1:]  # Use lagged and EMA values as features
+    y = scaled_data[:, 0]   # Original value column as target
+    
+    # Reshape for LSTM (samples, time steps, features)
+    X = X.reshape((X.shape[0], 1, X.shape[1]))
+
     last_input = X[-1, 0, :]  # Get last input for forecasting
     future_predictions = forecast(model, last_input, future_steps=window_size)
 
