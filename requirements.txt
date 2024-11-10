@@ -6,3 +6,4 @@ streamlit
 scikit-learn
 matplotlib
 seaborn
+base64
