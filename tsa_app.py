@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-pip install plotly
 import plotly.graph_objs as go
 from tensorflow.keras.models import load_model
 
