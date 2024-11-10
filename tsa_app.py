@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 
 
 
-model = load_model("C:/Users/Lakshya Singh/Downloads/lstmmodel.keras")
+model = load_model("lstmmodel.keras")
 
 
 # Function to plot dataset
