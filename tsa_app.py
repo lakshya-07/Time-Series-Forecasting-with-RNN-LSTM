@@ -16,6 +16,8 @@ def set_background(image_path):
             .stApp {{
                 background-image: url("data:image/jpeg;base64,{encoded_string}");
                 background-size: cover;
+                color: white; /* Set font color to white */
+
             }}
             </style>
             """,
@@ -27,6 +29,7 @@ set_background('bg_tsa.jpg')  # Path to your image file
 
 # Function to load and preprocess the data
 def preprocess_data(file):
+    file.seek(0)  
     df = pd.read_csv(file)
     df_ema = apply_ema(df)
     lagged_df = create_lagged_features(df_ema, n_lags=5)
@@ -39,7 +42,6 @@ def preprocess_data(file):
     X = X.reshape(X.shape[0], 1, X.shape[1])
 
     return X, y
-
 # Function to apply EMA
 def apply_ema(data, span=10):
     data['t1_ema'] = data['t1'].ewm(span=span, adjust=False).mean()
