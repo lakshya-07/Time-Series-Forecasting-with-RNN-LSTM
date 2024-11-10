@@ -23,7 +23,7 @@ def set_background(image_path):
         )
 
 # Apply the background
-set_background('background_image.jpg')  # Path to your image file
+set_background('bg_tsa.jpg')  # Path to your image file
 
 # Function to load and preprocess the data
 def preprocess_data(file):
@@ -124,14 +124,12 @@ def plot_forecast_interactive(true_values, future_predictions, forecast_steps=24
 st.title("Time Series Forecasting App")
 
 uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
-model_choice = st.selectbox("Select Model", ("Simple RNN", "GRU", "LSTM"))
+model_choice = st.selectbox("Select Model", ("LSTM"))
 window_size = st.slider("Select Window Size", min_value=10, max_value=200, value=60, step=10)
 
 # Load model based on choice
 model_dict = {
-    "Simple RNN": "path_to_RNN_model.h5",
-    "GRU": "path_to_GRU_model.h5",
-    "LSTM": "path_to_LSTM_model.h5"
+    "LSTM": "lstmmodel.keras"
 }
 model_path = model_dict[model_choice]
 model = load_model(model_path)
