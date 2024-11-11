@@ -1,12 +1,12 @@
 # **Time Series Forecasting with LSTM**
 
-This repository demonstrates how to perform time series forecasting using Long Short-Term Memory (LSTM) networks. The project includes the code for data preprocessing, building, training, and evaluating LSTM models, as well as interactive visualizations for both the time series data and forecasted results. 
-
-## **Introduction**
-
-Time series forecasting is a method used to predict future values based on previously observed values. This repository specifically focuses on forecasting using LSTM (Long Short-Term Memory) networks, a type of recurrent neural network (RNN) known for its effectiveness in sequential data modeling.
-
+This repository demonstrates how to perform time series forecasting using Simple Recurrent Neural Network (Simple RNNS) and Long Short-Term Memory (LSTM) networks. The project includes the code for data preprocessing, building, training, and evaluating LSTM models, as well as interactive visualizations for both the time series data and forecasted results. 
 The goal of this project is to predict future energy consumption values based on historical data. The repository provides code for preprocessing data, applying the LSTM model, and evaluating its performance.
+
+## Code Details
+1. **Data Preprocessing**: Includes lagged features and exponential moving averages.
+2. **Model Training**: Utilizes Simple RNN and LSTM for forecasting.
+3. **Evaluation**: Model performance evaluated using MAE, MSE, RMSE, and R².
 
 ---
 ## **Dataset**
