@@ -7,22 +7,24 @@ from sklearn.preprocessing import MinMaxScaler
 import base64
 
 # Set up the background image
-def set_background(image_data):
-    encoded_string = base64.b64encode(image_data.read()).decode()
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/jpeg;base64,{encoded_string}");
-            background-size: cover;
-            color: white;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+def set_background(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image: url("data:image/jpeg;base64,{encoded_string}");
+                background-size: cover;
+                color: white; /* Set font color to white */
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
-set_background(bg_tsa.jpg)
+# Apply the background
+set_background('bg_tsa.jpg')
 
 # Function to create lagged features
 def create_lagged_features(data, n_lags=5):
