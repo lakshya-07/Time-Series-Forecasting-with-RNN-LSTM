@@ -22,10 +22,7 @@ def set_background(image_data):
         unsafe_allow_html=True
     )
 
-# Background image upload and setup
-uploaded_bg = st.file_uploader("Upload Background Image", type=["jpg", "jpeg"])
-if uploaded_bg is not None:
-    set_background(uploaded_bg)
+set_background(bg_tsa.jpg)
 
 # Function to create lagged features
 def create_lagged_features(data, n_lags=5):
