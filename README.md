@@ -31,8 +31,8 @@ Welcome to the Time Series Forecasting App! This app provides an interactive pla
 ## **Dataset**
 The dataset used in this repository consists of hourly energy consumption data, with two columns:
 
-1.Datetime: Timestamp of the energy consumption data point.
-2.Value: Energy consumption in megawatts (MW).
+ • Datetime: Timestamp of the energy consumption data point.
+ • Value: Energy consumption in megawatts (MW).
 Ensure your dataset is in CSV format before uploading to the app.
 
 
