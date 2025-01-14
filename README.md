@@ -55,10 +55,10 @@ Forecast Plot: Compares the true values of the test set with the forecasted valu
 ## **Evaluation Metrics**
 The following metrics are used to evaluate the performance of the LSTM model:
 
--Mean Absolute Error (MAE): Measures the average magnitude of the errors in a set of predictions, without considering their direction.
--Mean Squared Error (MSE): Measures the average of the squared differences between the predicted and actual values.
--Root Mean Squared Error (RMSE): The square root of MSE, providing an error measure in the same units as the original data.
--Mean Absolute Percentage Error (MAPE): Measures the accuracy of the forecast as a percentage.
+•  Mean Absolute Error (MAE): Measures the average magnitude of the errors in a set of predictions, without considering their direction.
+•  Mean Squared Error (MSE): Measures the average of the squared differences between the predicted and actual values.
+•  Root Mean Squared Error (RMSE): The square root of MSE, providing an error measure in the same units as the original data.
+•  Mean Absolute Percentage Error (MAPE): Measures the accuracy of the forecast as a percentage.
 
 ### **Dependencies**
 
